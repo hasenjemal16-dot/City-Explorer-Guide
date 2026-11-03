@@ -5,12 +5,9 @@ const addisHero = '/addis-hero.png';
 
 const photoSources = {
   kitfo: {
-    src: '/images/kitfo.jpg',
-    alt: 'Kitfo served with ayib, injera, awaze, and mitmita',
-    creator: 'Michael T. (Flickr)',
-    license: 'CC BY-SA 2.0',
-    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0/',
-    source: 'https://commons.wikimedia.org/wiki/File:Kitfo_(Ethiopian_Tartar).jpg',
+    src: '/images/kitfo-user.png',
+    alt: 'Kitfo in a bowl at the center of an Ethiopian platter with injera and side dishes',
+    creator: 'Image provided by you',
   },
   injera: {
     src: '/images/injera-platter.jpg',
@@ -81,9 +78,9 @@ type PhotoFigureProps = {
   src: string;
   alt: string;
   creator: string;
-  license: string;
+  license?: string;
   licenseUrl?: string;
-  source: string;
+  source?: string;
   className?: string;
 };
 
@@ -92,9 +89,13 @@ function PhotoFigure({ src, alt, creator, license, licenseUrl, source, className
     <figure className={`photo-figure ${className}`}>
       <img src={src} alt={alt} loading="lazy" decoding="async" />
       <figcaption className="photo-credit">
-        <a href={source} target="_blank" rel="noreferrer">{creator}</a>
-        {' · '}
-        {licenseUrl ? <a href={licenseUrl} target="_blank" rel="noreferrer">{license}</a> : license}
+        {source ? <a href={source} target="_blank" rel="noreferrer">{creator}</a> : creator}
+        {license && (
+          <>
+            {' · '}
+            {licenseUrl ? <a href={licenseUrl} target="_blank" rel="noreferrer">{license}</a> : license}
+          </>
+        )}
       </figcaption>
     </figure>
   );
@@ -105,6 +106,7 @@ const navItems = [
   { label: 'Eat & drink', href: '#eat' },
   { label: 'Living culture', href: '#culture' },
   { label: 'Getting around', href: '#getting-around' },
+  { label: 'Tips', href: '#tips' },
 ];
 
 const landmarks = [
@@ -320,6 +322,48 @@ function App() {
           <article className="transit-card"><span className="transit-icon transit-walk">01</span><span className="eyebrow">ON FOOT</span><h3 className="serif">For noticing more</h3><p>Walk a compact area at an easy pace. Sidewalks, crossings, hills, and traffic differ from street to street; choose routes that suit your comfort.</p><a href="#neighborhood-title" className="transit-link">Choose a starting point <ArrowRight size={14} /></a></article>
         </div>
         <p className="transit-caveat">Routes, fares, operating hours, entry details, and travel requirements can change. Confirm them with current official sources and relevant providers before you go.</p>
+      </section>
+
+      <section className="visitor-tips-section" id="tips" aria-labelledby="tips-title">
+        <div className="visitor-tips-heading">
+          <div>
+            <span className="eyebrow">07 — PRACTICAL NOTES FOR VISITORS</span>
+            <h2 id="tips-title" className="serif">A few tips for<br /><em>your time in Addis.</em></h2>
+          </div>
+          <p>Small preparations can make the first days easier. Details change, so use these as starting points and confirm current information locally.</p>
+        </div>
+        <div className="visitor-tips-grid">
+          <article className="tip-card">
+            <span className="eyebrow">01 · ALTITUDE</span>
+            <h3 className="serif">Take the first day gently</h3>
+            <p>Addis sits at roughly 2,355 metres. Rest, drink water, and notice how you feel; seek medical advice if you become unwell.</p>
+          </article>
+          <article className="tip-card">
+            <span className="eyebrow">02 · PACE</span>
+            <h3 className="serif">Group nearby stops</h3>
+            <p>Hills and traffic can make cross-city trips take longer than they look on a map. Choose a neighborhood and leave extra time between plans.</p>
+          </article>
+          <article className="tip-card">
+            <span className="eyebrow">03 · CHECK FIRST</span>
+            <h3 className="serif">Recheck the details</h3>
+            <p>Confirm current opening hours, access, transport fares, and travel requirements with official sources and the relevant provider.</p>
+          </article>
+          <article className="tip-card">
+            <span className="eyebrow">04 · TRANSPORT</span>
+            <h3 className="serif">Ask about the ride</h3>
+            <p>Ask your accommodation or a trusted local contact about current routes and options. Agree on taxi terms before setting off.</p>
+          </article>
+          <article className="tip-card">
+            <span className="eyebrow">05 · PHOTOGRAPHY</span>
+            <h3 className="serif">Ask before taking photos</h3>
+            <p>Get permission before photographing people, and follow posted guidance at religious or cultural places. Respect a no.</p>
+          </article>
+          <article className="tip-card">
+            <span className="eyebrow">06 · FOOD</span>
+            <h3 className="serif">Ask how a dish is prepared</h3>
+            <p>Ingredients and spice vary. With kitfo, ask whether it is served raw, lightly cooked, or cooked, and choose what feels right for you.</p>
+          </article>
+        </div>
       </section>
 
       <section className="planning-section" id="plan">

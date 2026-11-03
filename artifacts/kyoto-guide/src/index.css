@@ -457,9 +457,22 @@ html { scroll-padding-top: 76px; }
 .food-note { grid-template-columns: 42px minmax(0, 1fr) minmax(130px, 175px); align-items: center; }
 .food-photo img { height: 110px; }
 .food-photo .photo-credit { color: rgba(242, 236, 220, .65); }
+.visitor-tips-section { padding: 105px clamp(26px, 12.2vw, 190px) 110px; background: #f4eddf; }
+.visitor-tips-heading { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-bottom: 44px; }
+.visitor-tips-heading .eyebrow { display: block; margin-bottom: 23px; color: #a84d39; }
+.visitor-tips-heading h2 { margin: 0; font-size: clamp(45px, 5.5vw, 72px); line-height: .95; letter-spacing: -.035em; }
+.visitor-tips-heading h2 em { color: #a84d39; font-weight: 400; }
+.visitor-tips-heading > p { max-width: 340px; margin: 0 0 4px; color: hsl(var(--muted-foreground)); font-size: 13px; line-height: 1.8; }
+.visitor-tips-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #d2c9b9; border-left: 1px solid #d2c9b9; }
+.tip-card { min-height: 208px; padding: 22px 23px; border-right: 1px solid #d2c9b9; border-bottom: 1px solid #d2c9b9; }
+.tip-card > .eyebrow { color: #a84d39; font-size: 8px; }
+.tip-card h3 { margin: 17px 0 9px; font-size: 25px; line-height: 1.08; }
+.tip-card p { max-width: 340px; margin: 0; color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.8; }
 @media (max-width: 850px) {
   .desktop-nav { background: #243d33; }
   .food-note { grid-template-columns: 34px minmax(0, 1fr) minmax(115px, 145px); gap: 12px; }
+  .visitor-tips-section { padding-left: 8vw; padding-right: 8vw; }
+  .visitor-tips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px) {
   .landmark-photo img { height: 175px; }
@@ -468,6 +481,12 @@ html { scroll-padding-top: 76px; }
   .food-photo { grid-column: 2; max-width: 320px; }
   .food-photo img { height: 175px; }
   .food-photo .photo-credit { margin-bottom: 2px; }
+  .visitor-tips-section { padding: 70px 24px; }
+  .visitor-tips-heading { display: block; margin-bottom: 31px; }
+  .visitor-tips-heading h2 { font-size: 53px; }
+  .visitor-tips-heading > p { margin-top: 21px; }
+  .visitor-tips-grid { grid-template-columns: 1fr; }
+  .tip-card { min-height: 0; padding: 19px 20px; }
 }
 @media (max-width: 620px) {
   .hero-wash { background: linear-gradient(0deg, rgba(22, 36, 31, .88) 0%, rgba(22, 36, 31, .61) 50%, rgba(22, 36, 31, .08) 100%); }
