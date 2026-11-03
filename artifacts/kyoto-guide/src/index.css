@@ -35,25 +35,25 @@
 }
 
 :root {
-  --background: 43 36% 94%;
-  --foreground: 166 20% 17%;
-  --border: 37 19% 82%;
-  --input: 37 19% 82%;
-  --card: 42 35% 97%;
-  --card-foreground: 166 20% 17%;
-  --popover: 42 35% 97%;
-  --popover-foreground: 166 20% 17%;
-  --primary: 167 24% 26%;
-  --primary-foreground: 43 36% 94%;
-  --secondary: 36 30% 88%;
-  --secondary-foreground: 166 20% 17%;
-  --muted: 39 24% 89%;
-  --muted-foreground: 159 9% 43%;
-  --accent: 15 54% 48%;
-  --accent-foreground: 43 36% 96%;
+  --background: 41 36% 93%;
+  --foreground: 162 25% 17%;
+  --border: 39 20% 79%;
+  --input: 39 20% 79%;
+  --card: 42 39% 97%;
+  --card-foreground: 162 25% 17%;
+  --popover: 42 39% 97%;
+  --popover-foreground: 162 25% 17%;
+  --primary: 161 34% 24%;
+  --primary-foreground: 41 36% 93%;
+  --secondary: 38 29% 86%;
+  --secondary-foreground: 162 25% 17%;
+  --muted: 38 24% 87%;
+  --muted-foreground: 158 11% 42%;
+  --accent: 8 57% 43%;
+  --accent-foreground: 42 39% 97%;
   --destructive: 4 60% 45%;
-  --destructive-foreground: 43 36% 96%;
-  --ring: 15 54% 48%;
+  --destructive-foreground: 42 39% 97%;
+  --ring: 8 57% 43%;
   --app-font-sans: 'DM Sans', sans-serif;
   --app-font-serif: 'Instrument Serif', Georgia, serif;
   --app-font-mono: 'IBM Plex Mono', monospace;
@@ -61,25 +61,25 @@
 }
 
 .dark {
-  --background: 165 20% 12%;
-  --foreground: 43 36% 94%;
-  --border: 163 12% 28%;
-  --input: 163 12% 28%;
-  --card: 165 17% 16%;
-  --card-foreground: 43 36% 94%;
-  --popover: 165 17% 16%;
-  --popover-foreground: 43 36% 94%;
-  --primary: 43 36% 84%;
-  --primary-foreground: 165 20% 12%;
-  --secondary: 163 12% 25%;
-  --secondary-foreground: 43 36% 94%;
-  --muted: 163 12% 25%;
+  --background: 162 25% 12%;
+  --foreground: 41 36% 93%;
+  --border: 160 13% 28%;
+  --input: 160 13% 28%;
+  --card: 162 20% 16%;
+  --card-foreground: 41 36% 93%;
+  --popover: 162 20% 16%;
+  --popover-foreground: 41 36% 93%;
+  --primary: 41 36% 84%;
+  --primary-foreground: 162 25% 12%;
+  --secondary: 160 13% 25%;
+  --secondary-foreground: 41 36% 93%;
+  --muted: 160 13% 25%;
   --muted-foreground: 42 16% 68%;
-  --accent: 15 58% 58%;
-  --accent-foreground: 165 20% 12%;
+  --accent: 8 59% 57%;
+  --accent-foreground: 162 25% 12%;
   --destructive: 4 60% 50%;
   --destructive-foreground: 43 36% 96%;
-  --ring: 15 58% 58%;
+  --ring: 8 59% 57%;
 }
 
 @layer base {
@@ -380,4 +380,76 @@
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Addis field notes: highland parchment, coffee-leaf green, and a measured
+   thread of berbere-red. The existing editorial grid stays intentionally airy. */
+:root {
+  --app-font-sans: 'DM Sans', sans-serif;
+  --app-font-serif: 'Instrument Serif', Georgia, serif;
+  --app-font-mono: 'IBM Plex Mono', monospace;
+}
+html { scroll-padding-top: 76px; }
+.site-header { background: linear-gradient(180deg, rgba(26, 42, 35, .26), transparent); }
+.wordmark-stamp { border-radius: 2px 50% 50% 50%; transform: rotate(-8deg); }
+.wordmark-stamp, .footer-brand .wordmark-stamp { color: #e5b886; }
+.hero { background: #243b32; }
+.hero-wash { background: linear-gradient(90deg, rgba(22, 36, 31, .82) 0%, rgba(22, 36, 31, .57) 43%, rgba(22, 36, 31, .08) 100%), linear-gradient(0deg, rgba(22, 36, 31, .4), transparent 34%); }
+.hero-kicker, .hero h1 em { color: #e7b77e; }
+.hero-cta:hover .round-arrow { background: rgba(231, 183, 126, .18); }
+.intro-section { position: relative; }
+.section-marker, .section-heading .eyebrow, .neighborhood-head .eyebrow,
+.manners-left .eyebrow, .transit-top .eyebrow, .planning-intro .eyebrow,
+.faq-section > .eyebrow { color: #a84d39; }
+.intro-grid h2 em, .section-heading h2 em, .neighborhood-head h2 em,
+.transit-top h2 em, .planning-intro h2 em, .faq-layout h2 em { color: #a84d39; }
+.landmark-section { background: #e8e0d1; }
+.landmark-art { border-radius: 1px; }
+.landmark-vermillion { background: linear-gradient(145deg, #b75a41, #8f4739); }
+.landmark-moss { background: linear-gradient(145deg, #87947b, #526b5d); }
+.landmark-river { background: linear-gradient(145deg, #9a8f69, #556f65); }
+.landmark-art::before, .landmark-art::after { border-radius: 0; transform: rotate(45deg); }
+.art-ring { border-radius: 0; transform: rotate(45deg); }
+.art-mark { font: 500 17px var(--app-font-mono); letter-spacing: .18em; }
+.neighborhood-graphic { border-radius: 1px; }
+.graphic-lane { background: linear-gradient(155deg, #c5a679 0 37%, #7e7d5e 37% 39%, #b39a71 39% 58%, #456352 58%); }
+.graphic-sun { background: #d88b56; }
+.graphic-roof { background: #29483b; }
+.roof-two { background: #55735d; }
+.graphic-river { background: linear-gradient(145deg, #acb59b, #71866f); }
+.river-bridge { background: #a64d38; }
+.graphic-market { background: linear-gradient(145deg, #d1a77c, #a65a3d); }
+.market-awning { background: repeating-linear-gradient(90deg, #ead8b8 0 24px, #a74735 24px 48px); }
+.market-counter { background: #3c6250; }
+.market-stall { background: #d3b381; }
+.food-section { background: #29483b; }
+.food-intro .eyebrow, .food-intro h2 em, .food-index, .food-tag, .food-aside,
+.aside-jp { color: #e7b77e; }
+.food-note { padding-top: 23px; padding-bottom: 22px; }
+.featured-food { background: linear-gradient(90deg, rgba(164, 74, 53, .2), transparent 75%); padding-left: 12px; margin-left: -12px; }
+.featured-label { display: inline-block; color: #e7b77e; font: 500 8px/1.5 var(--app-font-mono); letter-spacing: .16em; margin-bottom: 5px; }
+.food-note h3 { font-size: 32px; }
+.food-aside { left: clamp(26px, 12.2vw, 190px); }
+.aside-jp { text-transform: uppercase; letter-spacing: .08em; }
+.manners-section, .planning-section { background: #e8e0d1; }
+.manners-glyph { color: rgba(164, 74, 53, .17); font-size: 73px; letter-spacing: -.08em; }
+.transit-icon { border-color: rgba(164, 74, 53, .44); color: #a84d39; }
+.day-tab:focus-visible, .menu-toggle:focus-visible, a:focus-visible, summary:focus-visible,
+.day-tab:focus-visible { outline-color: #a84d39; }
+.day-tab.active { color: #a84d39; border-bottom-color: #a84d39; }
+.planning-panel { background: #f4eddf; }
+.itinerary-mark { color: #a84d39; font: 500 13px var(--app-font-mono); letter-spacing: .1em; }
+.site-footer, .desktop-nav { background-color: #243d33; }
+.footer-brand em, .footer-center .eyebrow, .up-arrow { color: #e7b77e; }
+.footer-brand .wordmark-stamp { color: #e7b77e; }
+.transit-link:hover, .text-link:hover { color: #a84d39; }
+.nav-plan:hover { color: #243d33 !important; }
+::selection { background: rgba(168, 77, 57, .2); }
+@media (max-width: 850px) {
+  .desktop-nav { background: #243d33; }
+}
+@media (max-width: 620px) {
+  .hero-wash { background: linear-gradient(0deg, rgba(22, 36, 31, .88) 0%, rgba(22, 36, 31, .61) 50%, rgba(22, 36, 31, .08) 100%); }
+  .food-aside { left: 24px; }
+  .featured-food { margin-left: -5px; padding-left: 5px; }
 }
