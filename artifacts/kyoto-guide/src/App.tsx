@@ -3,6 +3,103 @@ import { ArrowDown, ArrowDownRight, ArrowRight, Bus, ChevronDown, Clock3, Menu, 
 
 const addisHero = '/addis-hero.png';
 
+const photoSources = {
+  kitfo: {
+    src: '/images/kitfo.jpg',
+    alt: 'Kitfo served with ayib, injera, awaze, and mitmita',
+    creator: 'Michael T. (Flickr)',
+    license: 'CC BY-SA 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Kitfo_(Ethiopian_Tartar).jpg',
+  },
+  injera: {
+    src: '/images/injera-platter.jpg',
+    alt: 'An Ethiopian fasting platter of injera and vegetable dishes',
+    creator: 'Jbinthecity',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Ethiopian_fasting_platter.jpg',
+  },
+  coffee: {
+    src: '/images/coffee-ceremony.jpg',
+    alt: 'A traditional Ethiopian coffee set arranged on a woven basket',
+    creator: 'ProtoplasmaKid',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Coffee_ceremony_of_Ethiopia_and_Eritrea_4.jpg',
+  },
+  merkato: {
+    src: '/images/merkato.jpg',
+    alt: 'A busy market street in Merkato, Addis Ababa',
+    creator: 'Diego Delso',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Addis_Mercato,_Ad%C3%ADs_Abeba,_Etiop%C3%ADa,_2024-01-19,_DD_28.jpg',
+  },
+  museum: {
+    src: '/images/national-museum.jpg',
+    alt: 'The National Museum of Ethiopia in Addis Ababa',
+    creator: 'Richard van Alphen',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:National_museum_of_Ethiopia_New_facility.JPG',
+  },
+  cathedral: {
+    src: '/images/holy-trinity.jpg',
+    alt: 'Holy Trinity Cathedral in Addis Ababa',
+    creator: 'A. Davey',
+    license: 'CC BY 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/2.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Holy_Trinity_Cathedral,_Addis_Ababa_(3434312871).jpg',
+  },
+  entoto: {
+    src: '/images/entoto.jpg',
+    alt: 'A view over Addis Ababa from the green slopes of Entoto',
+    creator: 'Ninaras',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Addis_Ababa_from_Entoto_Mountains.jpg',
+  },
+  piazza: {
+    src: '/images/piazza.jpg',
+    alt: 'A street scene in Addis Ababa’s Piazza district',
+    creator: 'Adam Jones',
+    license: 'CC BY-SA 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Street_Scene_-_Piazza_District_-_Addis_Ababa_-_Ethiopia_(8659539441).jpg',
+  },
+  bole: {
+    src: '/images/bole.jpg',
+    alt: 'A modern street in the Bole area of Addis Ababa',
+    creator: 'AtsiG',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    source: 'https://commons.wikimedia.org/wiki/File:Ethiopia,addis_ababa_bole_street.jpg',
+  },
+};
+
+type PhotoFigureProps = {
+  src: string;
+  alt: string;
+  creator: string;
+  license: string;
+  licenseUrl?: string;
+  source: string;
+  className?: string;
+};
+
+function PhotoFigure({ src, alt, creator, license, licenseUrl, source, className = '' }: PhotoFigureProps) {
+  return (
+    <figure className={`photo-figure ${className}`}>
+      <img src={src} alt={alt} loading="lazy" decoding="async" />
+      <figcaption className="photo-credit">
+        <a href={source} target="_blank" rel="noreferrer">{creator}</a>
+        {' · '}
+        {licenseUrl ? <a href={licenseUrl} target="_blank" rel="noreferrer">{license}</a> : license}
+      </figcaption>
+    </figure>
+  );
+}
+
 const navItems = [
   { label: 'Start here', href: '#essentials' },
   { label: 'Eat & drink', href: '#eat' },
@@ -17,8 +114,7 @@ const landmarks = [
     neighborhood: 'ARAT KILO · CENTRAL ADDIS',
     note: 'A thoughtful first stop for Ethiopia’s deep and varied histories. The museum is known for the hominin fossil Lucy; check current exhibitions and visitor information before you go.',
     best: 'Give the galleries unhurried time',
-    mark: '01',
-    tone: 'landmark-vermillion',
+    photo: photoSources.museum,
   },
   {
     number: '02',
@@ -26,8 +122,7 @@ const landmarks = [
     neighborhood: 'ARAT KILO · CENTRAL ADDIS',
     note: 'A significant Ethiopian Orthodox Tewahedo site and a place of worship, remembrance, and history. Dress respectfully, follow on-site guidance, and ask before taking photographs.',
     best: 'Visit with care and curiosity',
-    mark: '02',
-    tone: 'landmark-moss',
+    photo: photoSources.cathedral,
   },
   {
     number: '03',
@@ -35,8 +130,7 @@ const landmarks = [
     neighborhood: 'NORTH OF THE CITY · HIGHLAND EDGE',
     note: 'A higher, greener perspective over Addis and a way to feel the city’s highland setting. Conditions and access can vary; check locally and take the climb at your own pace.',
     best: 'Leave time to acclimate',
-    mark: '03',
-    tone: 'landmark-river',
+    photo: photoSources.entoto,
   },
 ];
 
@@ -132,10 +226,7 @@ function App() {
           {landmarks.map((place) => (
             <article className="landmark-row" key={place.number} data-testid={`card-landmark-${place.number}`}>
               <span className="landmark-number eyebrow">{place.number}</span>
-              <div className={`landmark-art ${place.tone}`} aria-hidden="true">
-                <span className="art-ring" /><span className="art-mark">{place.mark}</span>
-                <span className="art-caption">{place.neighborhood}</span>
-              </div>
+              <PhotoFigure {...place.photo} className="landmark-photo" />
               <div className="landmark-copy">
                 <p className="eyebrow">{place.neighborhood}</p>
                 <h3 className="serif">{place.name}</h3>
@@ -156,19 +247,19 @@ function App() {
         </div>
         <div className="neighborhood-grid">
           <article className="neighborhood-card neighborhood-large">
-            <div className="neighborhood-graphic graphic-lane"><span className="graphic-sun" /><span className="graphic-roof roof-one" /><span className="graphic-roof roof-two" /><span className="graphic-lane-label">ADDIS</span></div>
+            <PhotoFigure {...photoSources.piazza} className="neighborhood-photo neighborhood-photo-large" />
             <div className="neighborhood-meta"><span className="eyebrow">PIAZZA · CITY HISTORY & CAFÉS</span><span className="mono">CENTRAL</span></div>
             <h3 className="serif">Piazza</h3>
             <p>Walk the busy central streets, look for older façades among newer ones, and find a café for a pause. Let the city’s mix of eras speak for itself.</p>
           </article>
           <article className="neighborhood-card">
-            <div className="neighborhood-graphic graphic-river"><span className="river-line river-a" /><span className="river-line river-b" /><span className="river-bridge" /><span className="graphic-lane-label">MERCATO</span></div>
+            <PhotoFigure {...photoSources.merkato} className="neighborhood-photo" />
             <div className="neighborhood-meta"><span className="eyebrow">MERKATO · COMMERCE & CRAFT</span><span className="mono">WEST</span></div>
             <h3 className="serif">Merkato</h3>
             <p>A vast, energetic trading district. Go with a local guide if that would help you navigate; ask before taking photographs and keep valuables secure.</p>
           </article>
           <article className="neighborhood-card">
-            <div className="neighborhood-graphic graphic-market"><span className="market-awning" /><span className="market-counter" /><span className="market-stall" /><span className="graphic-lane-label">BOLE</span></div>
+            <PhotoFigure {...photoSources.bole} className="neighborhood-photo" />
             <div className="neighborhood-meta"><span className="eyebrow">BOLE · NEWER CITY & MEETING PLACES</span><span className="mono">SOUTH-EAST</span></div>
             <h3 className="serif">Bole</h3>
             <p>A modern, fast-changing part of town with restaurants, shops, and places to meet. Pick one destination and allow extra time for the journey.</p>
@@ -186,12 +277,15 @@ function App() {
         <div className="food-notes">
           <article className="food-note featured-food">
             <span className="food-index">01</span><div><span className="featured-label">A FIRST-VISIT MUST-TASTE</span><h3 className="serif">Kitfo</h3><p>Seasoned minced beef, traditionally associated with southern Ethiopia. It may be served raw, lightly cooked, or cooked. Ask how it is prepared and choose what feels right for you; clarify ingredients and handling with the restaurant.</p><span className="food-tag">ASK HOW IT’S PREPARED · ORDER TO YOUR COMFORT</span></div>
+            <PhotoFigure {...photoSources.kitfo} className="food-photo" />
           </article>
           <article className="food-note">
             <span className="food-index">02</span><div><h3 className="serif">Injera & wot</h3><p>Injera is a tangy, fermented flatbread often used to scoop up wot—sauced dishes that can feature lentils, vegetables, or meat. Recipes and spice levels vary; ask what is in a dish.</p><span className="food-tag">SHARED TABLE · MANY VARIATIONS</span></div>
+            <PhotoFigure {...photoSources.injera} className="food-photo" />
           </article>
           <article className="food-note">
             <span className="food-index">03</span><div><h3 className="serif">The coffee ceremony</h3><p>Coffee is roasted, brewed, and served as part of a social ritual in many settings. If invited, settle in and follow your host’s lead; the ceremony is about company as much as the cup.</p><span className="food-tag">MAKE TIME · ACCEPT THE INVITATION</span></div>
+            <PhotoFigure {...photoSources.coffee} className="food-photo" />
           </article>
           <article className="food-note">
             <span className="food-index">04</span><div><h3 className="serif">A table for everyone</h3><p>There are many plant-based dishes, including lentil and vegetable wot. Fasting practices differ by person and community; ask what is available rather than assuming.</p><span className="food-tag">ASK KINDLY · SHARE GENEROUSLY</span></div>
