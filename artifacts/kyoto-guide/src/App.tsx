@@ -159,6 +159,14 @@ type ItineraryLength = keyof typeof itinerary;
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDays, setSelectedDays] = useState<ItineraryLength>('3 days');
+  const [visitorResponse, setVisitorResponse] = useState(() => {
+    try {
+      return window.sessionStorage.getItem('addis-visitor-response') ?? '';
+    } catch {
+      return '';
+    }
+  });
+  const [visitorResponseStatus, setVisitorResponseStatus] = useState('');
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -326,43 +334,49 @@ function App() {
 
       <section className="visitor-tips-section" id="tips" aria-labelledby="tips-title">
         <div className="visitor-tips-heading">
-          <div>
-            <span className="eyebrow">07 — PRACTICAL NOTES FOR VISITORS</span>
-            <h2 id="tips-title" className="serif">A few tips for<br /><em>your time in Addis.</em></h2>
-          </div>
-          <p>Small preparations can make the first days easier. Details change, so use these as starting points and confirm current information locally.</p>
+          <span className="eyebrow">07 — YOUR VISIT</span>
+          <h2 id="tips-title" className="serif">Make the visit<br /><em>your own.</em></h2>
         </div>
-        <div className="visitor-tips-grid">
-          <article className="tip-card">
-            <span className="eyebrow">01 · ALTITUDE</span>
-            <h3 className="serif">Take the first day gently</h3>
-            <p>Addis sits at roughly 2,355 metres. Rest, drink water, and notice how you feel; seek medical advice if you become unwell.</p>
-          </article>
-          <article className="tip-card">
-            <span className="eyebrow">02 · PACE</span>
-            <h3 className="serif">Group nearby stops</h3>
-            <p>Hills and traffic can make cross-city trips take longer than they look on a map. Choose a neighborhood and leave extra time between plans.</p>
-          </article>
-          <article className="tip-card">
-            <span className="eyebrow">03 · CHECK FIRST</span>
-            <h3 className="serif">Recheck the details</h3>
-            <p>Confirm current opening hours, access, transport fares, and travel requirements with official sources and the relevant provider.</p>
-          </article>
-          <article className="tip-card">
-            <span className="eyebrow">04 · TRANSPORT</span>
-            <h3 className="serif">Ask about the ride</h3>
-            <p>Ask your accommodation or a trusted local contact about current routes and options. Agree on taxi terms before setting off.</p>
-          </article>
-          <article className="tip-card">
-            <span className="eyebrow">05 · PHOTOGRAPHY</span>
-            <h3 className="serif">Ask before taking photos</h3>
-            <p>Get permission before photographing people, and follow posted guidance at religious or cultural places. Respect a no.</p>
-          </article>
-          <article className="tip-card">
-            <span className="eyebrow">06 · FOOD</span>
-            <h3 className="serif">Ask how a dish is prepared</h3>
-            <p>Ingredients and spice vary. With kitfo, ask whether it is served raw, lightly cooked, or cooked, and choose what feels right for you.</p>
-          </article>
+        <div className="visitor-prompt-layout">
+          <form
+            className="visitor-prompt-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const response = visitorResponse.trim();
+              if (!response) {
+                setVisitorResponseStatus('Write a few words before saving.');
+                return;
+              }
+              try {
+                window.sessionStorage.setItem('addis-visitor-response', response);
+                setVisitorResponse(response);
+                setVisitorResponseStatus('Saved in this browser tab only.');
+              } catch {
+                setVisitorResponseStatus('Could not save, but your response is still in the box.');
+              }
+            }}
+          >
+            <label className="visitor-prompt-label" htmlFor="visitor-response">What would you most like to experience in Addis?</label>
+            <textarea
+              id="visitor-response"
+              rows={3}
+              value={visitorResponse}
+              onChange={(event) => {
+                setVisitorResponse(event.target.value);
+                setVisitorResponseStatus('');
+              }}
+              placeholder="A local market, Ethiopian food, the coffee ceremony, or something else?"
+            />
+            <div className="visitor-prompt-actions">
+              <span className="visitor-prompt-note">Your response stays in this browser tab.</span>
+              <button type="submit" className="visitor-prompt-button">Save my note</button>
+            </div>
+            <p className="visitor-prompt-status" role="status" aria-live="polite">{visitorResponseStatus}</p>
+          </form>
+          <aside className="visitor-quick-reminder">
+            <span className="eyebrow">QUICK REMINDER</span>
+            <p className="serif">Take it slowly. Group nearby stops. Check current details.</p>
+          </aside>
         </div>
       </section>
 
