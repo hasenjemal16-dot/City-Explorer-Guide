@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Kyoto Field Guide"
+description = "A welcoming visitor's guide to Kyoto, Japan, with landmark highlights, local food, cultural context, and practical travel tips."
+version = "1.0.0"
+id = "artifacts/kyoto-guide"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23338
+
+[services.development]
+run = "pnpm --filter @workspace/kyoto-guide run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kyoto-guide", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/kyoto-guide/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23338"
+BASE_PATH = "/"
