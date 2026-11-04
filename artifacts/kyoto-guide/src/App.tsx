@@ -136,6 +136,27 @@ const landmarks = [
   },
 ];
 
+const destinationCards = [
+  {
+    label: 'HISTORY · ARAT KILO',
+    name: 'National Museum of Ethiopia',
+    href: '#landmark-01',
+    photo: photoSources.museum,
+  },
+  {
+    label: 'LIVING HERITAGE · ARAT KILO',
+    name: 'Holy Trinity Cathedral',
+    href: '#landmark-02',
+    photo: photoSources.cathedral,
+  },
+  {
+    label: 'HIGHLAND EDGE · NORTH OF THE CITY',
+    name: 'Entoto hills',
+    href: '#landmark-03',
+    photo: photoSources.entoto,
+  },
+];
+
 const itinerary = {
   '2 days': {
     title: 'A first taste',
@@ -210,6 +231,31 @@ function App() {
         <div className="hero-caption"><span>ADDIS ABABA · LIGHT OVER THE HIGHLANDS</span><span>01 / ETHIOPIA</span></div>
       </section>
 
+      <section className="destination-preview" aria-labelledby="destination-preview-title">
+        <div className="destination-preview-heading">
+          <div>
+            <span className="eyebrow">A FEW GOOD PLACES TO BEGIN</span>
+            <h2 id="destination-preview-title" className="serif">Meet the city<br /><em>one place at a time.</em></h2>
+          </div>
+          <a className="text-link" href="#landmarks">Explore all three landmarks <ArrowDownRight size={16} /></a>
+        </div>
+        <div className="destination-card-grid">
+          {destinationCards.map((place, index) => (
+            <article className="destination-card" key={place.href}>
+              <PhotoFigure {...place.photo} className="destination-card-photo" />
+              <div className="destination-card-copy">
+                <span className="eyebrow">{place.label}</span>
+                <a href={place.href} className="destination-card-link" data-testid={`link-landmark-preview-${String(index + 1).padStart(2, '0')}`}>
+                  <h3 className="serif">{place.name}</h3>
+                  <ArrowDownRight size={17} aria-hidden="true" />
+                </a>
+              </div>
+              <span className="destination-card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="intro-section" id="essentials">
         <div className="section-marker"><span className="eyebrow">01 — FIND YOUR BEARINGS</span><span className="marker-line" /></div>
         <div className="intro-grid">
@@ -227,14 +273,14 @@ function App() {
         </div>
       </section>
 
-      <section className="landmark-section">
+      <section className="landmark-section" id="landmarks">
         <div className="section-heading">
           <div><span className="eyebrow">02 — LANDMARKS, WITH CONTEXT</span><h2 className="serif">Start here.<br /><em>Then wander.</em></h2></div>
           <p>These places open useful doors into the city’s histories and geography. Check current access details, then let the visit lead into a slower day.</p>
         </div>
         <div className="landmark-list">
           {landmarks.map((place) => (
-            <article className="landmark-row" key={place.number} data-testid={`card-landmark-${place.number}`}>
+            <article className="landmark-row" id={`landmark-${place.number}`} key={place.number} data-testid={`card-landmark-${place.number}`}>
               <span className="landmark-number eyebrow">{place.number}</span>
               <PhotoFigure {...place.photo} className="landmark-photo" />
               <div className="landmark-copy">
