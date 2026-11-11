@@ -10,6 +10,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: dishes
+    description: Visitor-submitted dish photos
+  - name: chat
+    description: AI city guide chat
+  - name: unsplash
+    description: Unsplash food inspiration
 paths:
   /healthz:
     get:
@@ -24,6 +30,173 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /dishes:
+    get:
+      operationId: listDishes
+      tags: [dishes]
+      summary: List dish photos
+      description: Returns dish photos newest first without image data.
+      responses:
+        "200":
+          description: Dish gallery items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishPhoto"
+    post:
+      operationId: createDish
+      tags: [dishes]
+      summary: Upload a dish photo
+      description: Accepts JPEG, PNG, or WebP data URLs up to 3 MB. A vision inspector only saves photos it identifies as kitfo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewDishPhoto"
+      responses:
+        "201":
+          description: Saved dish photo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishPhoto"
+        "400":
+          description: Invalid title, caption, or image data
+        "413":
+          description: Request or image exceeds the size limit
+        "422":
+          description: The photo was not identified as kitfo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishRejected"
+        "502":
+          description: Photo inspection is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /dishes/{id}/image:
+    get:
+      operationId: getDishImage
+      tags: [dishes]
+      summary: Retrieve a dish photo image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: Image bytes
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Dish photo not found
+  /chat/system-prompt:
+    get:
+      operationId: getChatSystemPrompt
+      tags: [chat]
+      summary: Get the city guide system prompt
+      responses:
+        "200":
+          description: The city guide system prompt
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  systemPrompt:
+                    type: string
+                required: [systemPrompt]
+  /chat:
+    post:
+      operationId: askCityGuide
+      tags: [chat]
+      summary: Ask the AI city guide
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          description: City guide answer and usage
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+        "400":
+          description: Invalid chat request
+        "502":
+          description: AI service could not provide an answer
+        "503":
+          description: Gemini API key is not configured
+  /unsplash/dish-inspiration:
+    get:
+      operationId: getDishInspiration
+      tags: [unsplash]
+      summary: Search Unsplash for inspiration related to the city's favorite dish
+      responses:
+        "200":
+          description: Up to six attributed inspiration photos
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 6
+                items:
+                  $ref: "#/components/schemas/InspirationPhoto"
+        "502":
+          description: Unsplash could not return photos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Unsplash access key is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /unsplash/photos/{id}/download:
+    post:
+      operationId: trackInspirationPhotoOpen
+      tags: [unsplash]
+      summary: Track an inspiration photo open with Unsplash
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[A-Za-z0-9_-]{1,100}$"
+      responses:
+        "204":
+          description: Photo-open event was registered with Unsplash
+        "400":
+          description: Invalid photo identifier
+        "502":
+          description: The photo-open event could not be registered
+        "503":
+          description: Unsplash access key is not configured
 components:
   schemas:
     HealthStatus:
@@ -33,4 +206,142 @@ components:
           type: string
       required:
         - status
-
+    NewDishPhoto:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        caption:
+          type: string
+        image:
+          type: string
+          description: JPEG, PNG, or WebP image data URL. Maximum decoded size is 3 MB.
+      required: [title, image]
+    DishPhoto:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        caption:
+          type: string
+        mimeType:
+          type: string
+          enum: [image/jpeg, image/png, image/webp]
+        inspectorNote:
+          type: [string, "null"]
+        createdAt:
+          type: string
+          format: date-time
+        imageUrl:
+          type: string
+          format: uri-reference
+      required: [id, title, caption, mimeType, inspectorNote, createdAt, imageUrl]
+    DishRejected:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Only kitfo photos can be uploaded!
+        reason:
+          type: string
+          example: The inspector saw a different dish.
+      required: [error, reason]
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+    InspirationPhoto:
+      type: object
+      properties:
+        id:
+          type: string
+        imageUrl:
+          type: string
+          format: uri
+        rawUrl:
+          type: string
+          format: uri
+        altText:
+          type: string
+        photographerName:
+          type: string
+        photographerProfileUrl:
+          type: string
+          format: uri
+          description: Photographer profile with UTM source and medium attribution parameters.
+        downloadLocation:
+          type: string
+          format: uri
+          description: Unsplash download tracking location.
+      required: [id, imageUrl, rawUrl, altText, photographerName, photographerProfileUrl, downloadLocation]
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+          minLength: 1
+      required: [role, content]
+    ChatSettings:
+      type: object
+      properties:
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+        topP:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.95
+        maxOutputTokens:
+          type: integer
+          minimum: 32
+          maximum: 1024
+          default: 300
+    ChatRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          minLength: 1
+        history:
+          type: array
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+        settings:
+          $ref: "#/components/schemas/ChatSettings"
+      required: [message]
+    ChatUsage:
+      type: object
+      properties:
+        promptTokens:
+          type: integer
+        candidateTokens:
+          type: integer
+        totalTokens:
+          type: integer
+        truncated:
+          type: boolean
+      required: [promptTokens, candidateTokens, totalTokens, truncated]
+    ChatResponse:
+      type: object
+      properties:
+        reply:
+          type: string
+        usage:
+          $ref: "#/components/schemas/ChatUsage"
+        settings:
+          $ref: "#/components/schemas/ChatSettings"
+        model:
+          type: string
+      required: [reply, usage, settings, model]
